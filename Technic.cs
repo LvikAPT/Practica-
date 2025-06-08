@@ -15,7 +15,7 @@ namespace office_equipment_repair
 {
     public partial class TechnicForm : Form
     {
-        int _sortState = 0; // 0=green top, 1=red top, 2=white top
+        int _sortState = 0;
 
         public TechnicForm()
         {
@@ -26,7 +26,6 @@ namespace office_equipment_repair
             dataGridViewTechnic.MouseDown += DataGridViewTechnic_MouseDown;
             dataGridViewTechnic.CellFormatting += dataGridViewTechnic_CellFormatting;
 
-            // Add event handler for delete menu item
             удалитьЗаписьToolStripMenuItem.Click += УдалитьЗаписьToolStripMenuItem_Click;
             редактироватьЗаписьToolStripMenuItem.Click += РедактироватьЗаписьToolStripMenuItem_Click;
             открытьИсториюРемонтаToolStripMenuItem.Click += ОткрытьИсториюРемонтаToolStripMenuItem_Click;
@@ -58,7 +57,6 @@ namespace office_equipment_repair
                 {
                     dataGridViewTechnic.ClearSelection();
                 }
-                // Show context menu explicitly at mouse position regardless of row
                 contextMenuStripTechnic.Show(dataGridViewTechnic, e.Location);
             }
         }
@@ -124,8 +122,6 @@ namespace office_equipment_repair
 
             var historyForm = new HistoryRepairForm(technicId);
             historyForm.Show();
-
-            // Optionally, you can pass technicId to the form and filter data accordingly if needed
         }
 
         private void ОткрытьИсториюДиагностикиToolStripMenuItem_Click(object sender, EventArgs e)

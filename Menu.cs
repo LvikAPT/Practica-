@@ -35,7 +35,6 @@ namespace office_equipment_repair
             else
             {
                 btnCreateUser.Visible = false;
-                btnViewUsers.Visible = false;
             }
 
             btnOfficeEquipment.Click += BtnOfficeEquipment_Click;

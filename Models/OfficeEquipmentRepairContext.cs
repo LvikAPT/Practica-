@@ -15,17 +15,12 @@ public partial class OfficeEquipmentRepairContext : DbContext
     {
     }
 
-    public virtual DbSet<Detail> Details { get; set; }
-
     public virtual DbSet<Diagnostic> Diagnostics { get; set; }
 
     public virtual DbSet<HistoryDiagnostic> HistoryDiagnostics { get; set; }
 
-    public virtual DbSet<HistoryOrderDetail> HistoryOrderDetails { get; set; }
-
     public virtual DbSet<HistoryRepair> HistoryRepairs { get; set; }
 
-    public virtual DbSet<HistoryRepairDetail> HistoryRepairDetails { get; set; }
 
     public virtual DbSet<Technic> Technics { get; set; }
 
@@ -41,20 +36,6 @@ public partial class OfficeEquipmentRepairContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Detail>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("details_pkey");
-
-            entity.ToTable("details");
-
-            entity.HasIndex(e => e.DetailName, "details_detail_name_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DetailName)
-                .HasMaxLength(100)
-                .HasColumnName("detail_name");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-        });
 
         modelBuilder.Entity<Diagnostic>(entity =>
         {
@@ -93,27 +74,6 @@ public partial class OfficeEquipmentRepairContext : DbContext
                 .HasConstraintName("fk_history_diagnostic_diagnostics");
         });
 
-        modelBuilder.Entity<HistoryOrderDetail>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("history_order_details_pkey");
-
-            entity.ToTable("history_order_details");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DetailId).HasColumnName("detail_id");
-            entity.Property(e => e.OrderDate).HasColumnName("order_date");
-            entity.Property(e => e.Price)
-                .HasPrecision(10, 2)
-                .HasColumnName("price");
-            entity.Property(e => e.Supplier)
-                .HasMaxLength(100)
-                .HasColumnName("supplier");
-
-            entity.HasOne(d => d.Detail).WithMany(p => p.HistoryOrderDetails)
-                .HasForeignKey(d => d.DetailId)
-                .HasConstraintName("fk_history_order_details_details");
-        });
-
         modelBuilder.Entity<HistoryRepair>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("history_repair_pkey");
@@ -136,26 +96,6 @@ public partial class OfficeEquipmentRepairContext : DbContext
             //     .HasForeignKey(d => d.WorkTypeId)
             //     .OnDelete(DeleteBehavior.SetNull)
             //     .HasConstraintName("fk_history_repair_work_type");
-        });
-
-        modelBuilder.Entity<HistoryRepairDetail>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("history_repair_details_pkey");
-
-            entity.ToTable("history_repair_details");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DetailId).HasColumnName("detail_id");
-            entity.Property(e => e.HistoryRepairId).HasColumnName("history_repair_id");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-
-            entity.HasOne(d => d.Detail).WithMany(p => p.HistoryRepairDetails)
-                .HasForeignKey(d => d.DetailId)
-                .HasConstraintName("fk_history_repair_details_detail");
-
-            entity.HasOne(d => d.HistoryRepair).WithMany(p => p.HistoryRepairDetails)
-                .HasForeignKey(d => d.HistoryRepairId)
-                .HasConstraintName("fk_history_repair_details_history_repair");
         });
 
         modelBuilder.Entity<Technic>(entity =>
