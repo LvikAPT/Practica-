@@ -97,5 +97,10 @@ namespace office_equipment_repair
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void labelWorkDone_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
